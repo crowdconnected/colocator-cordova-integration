@@ -27,6 +27,7 @@
 
 #import "AppDelegate.h"
 #import "MainViewController.h"
+#import <CCLocation/CCLocation-Swift.h>
 
 @implementation AppDelegate
 
@@ -34,6 +35,28 @@
 {
     self.viewController = [[MainViewController alloc] init];
     return [super application:application didFinishLaunchingWithOptions:launchOptions];
+}
+
+-(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    // At background refresh, the CCLocation library should be notified to update its state
+    [CCLocation.sharedInstance updateLibraryBasedOnClientStatusWithClientKey:@"YOUR_APP_KEY" isSilentNotification:false completion:^(BOOL result) {}];
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    // For CCLocation messaging feature, send device token to the library as an alias
+    NSString * deviceTokenString = [[[[deviceToken description]
+     stringByReplacingOccurrencesOfString: @"<" withString: @""]
+     stringByReplacingOccurrencesOfString: @">" withString: @""]
+     stringByReplacingOccurrencesOfString: @" " withString: @""];
+    [CCLocation.sharedInstance addAliasWithKey:@"apns_user_id" value:deviceTokenString];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    NSDictionary *apsInfo = [userInfo objectForKey:@"apsInfo"];
+    NSString *source = [apsInfo objectForKey:@"source"];
+    if ([source isEqualToString:@"colcoator"]) {
+        [CCLocation.sharedInstance receivedSilentNotificationWithUserInfo:userInfo clientKey:@"YOUR_APP_KEY" completion:^(BOOL result) {}];
+    }
 }
 
 @end
