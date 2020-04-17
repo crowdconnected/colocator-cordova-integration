@@ -122,7 +122,7 @@
         function startColocator() {
             document.getElementById("label").innerHTML = "Starting Colocator...";
             
-            ColocatorWrapper.start("iosrtest", function (s) {
+            ColocatorWrapper.start("YOUR_APP_KEY", function (s) {
                  document.getElementById("label").innerHTML = "Colocator started! - Success " + s;
             }, function (e) {
                  document.getElementById("label").innerHTML = "Starting Colocator! - Error " + e;
@@ -153,7 +153,7 @@
         function addAlias() {
             document.getElementById("label").innerHTML = "Adding Alias...";
             
-            ColocatorWrapper.addAlias("myKey", "myValue", function (s) {
+            ColocatorWrapper.addAlias("YOUR_KEY", "YOUR_VALUE", function (s) {
                  document.getElementById("label").innerHTML = "Alias Added! - Success " + s;
             }, function (e) {
                  document.getElementById("label").innerHTML = "Adding alias failed! - Error " + e;
@@ -195,7 +195,7 @@
         function startForegoundService() {
             document.getElementById("label").innerHTML = "Starting Foreground Service...";
 
-            ColocatorWrapper.setServiceNotificationInfo("Enjoy the Event! - Colocator", "0", "default", function (s) {
+            ColocatorWrapper.setServiceNotificationInfo("YOUR_TEXT", "YOUR_ICON_ID", "YOUR_CHANNEL_ID", function (s) {
                  document.getElementById("label").innerHTML = "Foreground Service Started! - Success " + s;
             }, function (e) {
                  document.getElementById("label").innerHTML = "Starting foreground service failed! - Error " + e;
