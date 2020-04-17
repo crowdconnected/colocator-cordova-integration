@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="com.crowdconnected.colocator.cordovaplugin" 
+    version="0.2.1" 
+    xmlns="http://apache.org/cordova/ns/plugins/1.0" 
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <name>ColocatorWrapper</name>
+    <js-module name="ColocatorWrapper" src="www/ColocatorWrapper.js">
+        <clobbers target="ColocatorWrapper"/>
+    </js-module>
+
+    <platform name="ios">
+
+        <config-file parent="/*" target="config.xml">
+            <feature name="ColocatorWrapper">
+                <param name="ios-package" value="ColocatorWrapper" />
+            </feature>
+        </config-file>
+        
+        <config-file target="*-Info.plist">
+            <key>NSBluetoothAlwaysUsageDescription</key>
+            <string>The app requires Bluetooth permission for improving location accuracy.</string>
+            <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+            <string>The app requires Location permission.</string>
+            <key>NSLocationAlwaysUsageDescription</key>
+            <string>The app requires Background Location permission.</string>
+            <key>NSLocationWhenInUseUsageDescription</key>
+            <string>The app requires Location permission.</string>
+            <key>NSMotionUsageDescription</key>
+            <string>The app requires Motion permission for providing indoor positions.</string>
+        </config-file>
+
+        <config-file target="*-Info.plist" parent="UIBackgroundModes">
+			<array>
+				<string>location</string>
+                <string>fetch</string>
+                <string>remote-notification</string>
+			</array>
+		</config-file>
+
+        <source-file src="src/ios/ColocatorWrapper.swift" />
+
+        <podspec>
+            <config>
+                <source url="https://github.com/CocoaPods/Specs.git"/>
+            </config>
+            
+            <pods use-frameworks="true">
+                <pod name="CCLocation" spec="~> 2.5.2" />
+            </pods>
+        </podspec>
+
+    </platform>
+
+    <platform name="android">
+
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="ColocatorWrapper">
+                <param name="android-package" value="com.crowdconnected.colocator.cordovaplugin.ColocatorWrapper" />
+            </feature>
+        </config-file>
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+        </config-file>
+
+        <source-file src="src/android/ColocatorWrapper.java" target-dir="src/com/crowdconnected/colocator/cordovaplugin/ColocatorWrapper" />
+        <framework src="src/android/colocator-gradle.gradle" custom="true" type="gradleReference" />
+
+    </platform>
+</plugin>

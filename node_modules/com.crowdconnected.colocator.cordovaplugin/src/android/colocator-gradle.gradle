@@ -1,0 +1,10 @@
+repositories {
+  maven { url "http://maven.crowdconnected.net/" }
+  jcenter() 
+}
+
+dependencies {
+  implementation 'net.crowdconnected.androidcolocator:colocator:2.5.1'
+  implementation 'com.google.android.gms:play-services-gcm:9.6.1'
+  implementation 'com.google.android.gms:play-services-location:9.6.1'
+}

@@ -1,0 +1,291 @@
+<html>
+
+<head>
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <script type="text/javascript" src="cordova.js"></script>
+
+    <title>Colocator Integration App</title>
+</head>
+
+<style>
+.center {
+    margin-top: 10px;
+    width: 100%;
+}
+    
+.button {
+    height: 30px;
+    background-color: #4c4ff0;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+</style>    
+
+<body>
+    <script>
+        var platform;
+
+        // App Configuration
+        var app = {
+            initialize: function() {
+                document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
+            },
+            onDeviceReady: function() {
+                platform = cordova.platformId;
+                this.receivedEvent('deviceready');
+            },
+            receivedEvent: function(id) {
+                var parentElement = document.getElementById(id);
+                var listeningElement = parentElement.querySelector('.listening');
+                var receivedElement = parentElement.querySelector('.received');
+
+                listeningElement.setAttribute('style', 'display:none;');
+                receivedElement.setAttribute('style', 'display:block;');
+            }
+        };
+
+        function onError(error) {
+            console.error("The following error occurred: " + error);
+        }
+
+        // Location Permission
+        function handleLocationAuthorizationStatus(status) {
+            switch (status) {
+                case cordova.plugins.diagnostic.permissionStatus.GRANTED:
+                    // if(platform === "ios"){
+                        onError("Location services is already switched ON");
+                    // }else{
+                    //     _makeRequest();
+                    // }
+                    break;
+                case cordova.plugins.diagnostic.permissionStatus.NOT_REQUESTED:
+                    requestLocationAuthorization();
+                    break;
+                case cordova.plugins.diagnostic.permissionStatus.DENIED:
+                    // if(platform === "android"){
+                        onError("User denied permission to use location");
+                    // }else{
+                    //     _makeRequest();
+                    // }
+                    break;
+                case cordova.plugins.diagnostic.permissionStatus.DENIED_ALWAYS:
+                    // Android only
+                    onError("User denied permission to use location");
+                    break;
+                case cordova.plugins.diagnostic.permissionStatus.GRANTED_WHEN_IN_USE:
+                    onError("Location services is already switched ON");
+                    break;
+            }
+        }
+
+        function requestLocationAuthorization() {
+            cordova.plugins.diagnostic.requestLocationAuthorization(handleLocationAuthorizationStatus, onError);
+        }
+
+        function checkAuthorization() {
+            cordova.plugins.diagnostic.getLocationAuthorizationStatus(handleLocationAuthorizationStatus, onError);
+        }
+
+        // function _makeRequest(){
+        //     cordova.plugins.locationAccuracy.canRequest(function(canRequest){
+        //         if (canRequest) {
+        //             cordova.plugins.locationAccuracy.request(function () {
+        //                     handleSuccess("Location accuracy request successful");
+        //                 }, function (error) {
+        //                     onError("Error requesting location accuracy: " + JSON.stringify(error));
+        //                     if (error) {
+        //                         // Android only
+        //                         onError("error code=" + error.code + "; error message=" + error.message);
+        //                         if (platform === "android" && error.code !== cordova.plugins.locationAccuracy.ERROR_USER_DISAGREED) {
+        //                             if (window.confirm("Failed to automatically set Location Mode to 'High Accuracy'. Would you like to switch to the Location Settings page and do this manually?")) {
+        //                                 cordova.plugins.diagnostic.switchToLocationSettings();
+        //                             }
+        //                         }
+        //                     }
+        //                 }, cordova.plugins.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY // iOS will ignore this
+        //             );
+        //         } else {
+        //             // On iOS, this will occur if Location Services is currently on OR a request is currently in progress.
+        //             // On Android, this will occur if the app doesn't have authorization to use location.
+        //             onError("Cannot request location accuracy");
+        //         }
+        //     });
+        // }
+
+        app.initialize();
+
+        // Location permission request
+        function requestLocationPermission() {
+            checkAuthorization();
+        }
+
+        // Library Control
+        function startColocator() {
+            document.getElementById("label").innerHTML = "Starting Colocator...";
+            
+            ColocatorWrapper.start("iosrtest", function (s) {
+                 document.getElementById("label").innerHTML = "Colocator started! - Success " + s;
+            }, function (e) {
+                 document.getElementById("label").innerHTML = "Starting Colocator! - Error " + e;
+            });
+        }
+
+        function stopColocator() {
+            document.getElementById("label").innerHTML = "Stopping Colocator...";
+            
+            ColocatorWrapper.stop(function (s) {
+                 document.getElementById("label").innerHTML = "Colocator stopped! - Success " + s;
+            }, function (e) {
+                 document.getElementById("label").innerHTML = "Stopping Colocator! - Error " + e;
+            });
+        }
+
+        // Common Methods
+        function getDeviceID() {
+            document.getElementById("label").innerHTML = "Getting device ID...";
+            
+            ColocatorWrapper.getDeviceId(function (s) {
+                 document.getElementById("label").innerHTML = "Device ID: " + s;
+            }, function (e) {
+                 document.getElementById("label").innerHTML = "Failed to get device ID - Error " + e;
+            });
+        }
+
+        function addAlias() {
+            document.getElementById("label").innerHTML = "Adding Alias...";
+            
+            ColocatorWrapper.addAlias("myKey", "myValue", function (s) {
+                 document.getElementById("label").innerHTML = "Alias Added! - Success " + s;
+            }, function (e) {
+                 document.getElementById("label").innerHTML = "Adding alias failed! - Error " + e;
+            });
+        }
+
+        // Location Methods
+        function requestLocation() {
+            document.getElementById("label").innerHTML = "Requesting One Location...";
+            
+            ColocatorWrapper.requestLocation(function (s) {
+                 document.getElementById("label").innerHTML = "Location Requested! - Success " + s;
+            }, function (e) {
+                 document.getElementById("label").innerHTML = "Failed to request location - Error " + e;
+            });
+        }
+
+        function registerLocationListener() {
+            document.getElementById("label").innerHTML = "Registering for Location Updates...";
+            
+            ColocatorWrapper.registerLocationListener(function (s) {
+                 document.getElementById("label").innerHTML = "Registered for Locations! - Success " + s;
+            }, function (e) {
+                 document.getElementById("label").innerHTML = "Failed to register for locations - Error " + e;
+            });
+        }
+
+        function unregisterLocationListener() {
+            document.getElementById("label").innerHTML = "Unregistering from Location Updates...";
+            
+            ColocatorWrapper.unregisterLocationListener(function (s) {
+                 document.getElementById("label").innerHTML = "Unregistered from Updates! - Success " + s;
+            }, function (e) {
+                 document.getElementById("label").innerHTML = "Failed to register from updates - Error " + e;
+            });
+        }
+
+        // Android Methods
+        function startForegoundService() {
+            document.getElementById("label").innerHTML = "Starting Foreground Service...";
+
+            ColocatorWrapper.setServiceNotificationInfo("Enjoy the Event! - Colocator", "0", "default", function (s) {
+                 document.getElementById("label").innerHTML = "Foreground Service Started! - Success " + s;
+            }, function (e) {
+                 document.getElementById("label").innerHTML = "Starting foreground service failed! - Error " + e;
+            });
+        }
+
+        // iOS Methods
+        function triggerBluetoothPermissionPopUp() {
+            document.getElementById("label").innerHTML = "Triggering Bluetooth Popup...";
+            
+            ColocatorWrapper.triggerBluetoothPermissionPopUp(function (s) {
+                 document.getElementById("label").innerHTML = "Bluetooth Popup Triggered! - Success " + s;
+            }, function (e) {
+                 document.getElementById("label").innerHTML = "Failed to trigger Bluetooth popup - Error " + e;
+            });
+        }
+
+        function triggerMotionPermissionPopUp() {
+            document.getElementById("label").innerHTML = "Triggering Motion Popup...";
+            
+            ColocatorWrapper.triggerMotionPermissionPopUp(function (s) {
+                 document.getElementById("label").innerHTML = "Motion Popup Triggered! - Success " + s;
+            }, function (e) {
+                 document.getElementById("label").innerHTML = "Failed to trigger Motion popup - Error " + e;
+            });
+        }
+
+        function testLibraryIntegration() {
+            document.getElementById("label").innerHTML = "Testing Library Integration...";
+            
+            ColocatorWrapper.testLibraryIntegration(function (s) {
+                 document.getElementById("label").innerHTML = "Library Integration Tested! - Success " + s;
+            }, function (e) {
+                 document.getElementById("label").innerHTML = "Failed to test library integration - Error " + e;
+            });
+        }
+
+    </script>
+
+    <div class="app">
+        <div class="center">
+            <h3>Location and Outputs </h3>
+            <button onclick="requestLocationPermission()"  class="button">Request Location Permission</button>
+            <p id="label">Waiting...</p>
+            
+            <h3>Colocator Library Controller </h3>
+            <button onclick="startColocator()"  class="button">Start</button>
+        
+            <br/>
+            <button onclick="stopColocator()"  class="button">Stop</button>
+        </div>
+    </div>
+
+    <div class="app">
+        <div class="center">
+            <h3>Common Methods</h3>
+            <button onclick="getDeviceID()"  class="button">Get Device ID</button>
+            <br/>
+            <button onclick="addAlias()"  class="button">Add Alias</button>
+            <br/>
+            <br/>
+            <button onclick="requestLocation()"  class="button">Request Location</button>
+            <br/>
+            <button onclick="registerLocationListener()"  class="button">Register for Location Updates</button>
+            <br/>
+            <button onclick="unregisterLocationListener()"  class="button">Unregister from Location Updates</button>
+        </div>
+    </div>
+
+    <div class="app">
+        <div class="center">
+            <h3>Platform Specific Methods</h3>
+            <button onclick="startForegoundService()"  class="button">Start Foreground Service</button>
+            <br/>
+            <button onclick="triggerBluetoothPermissionPopUp()"  class="button">Trigger Bluetooth Popup</button>
+            <br/>
+            <button onclick="triggerMotionPermissionPopUp()"  class="button">Trigger Motion Popup</button>
+            <br/>
+            <button onclick="testLibraryIntegration()"  class="button">Test Library Integration</button>
+            <br/>
+        </div>
+    </div>
+</body>
+</html>

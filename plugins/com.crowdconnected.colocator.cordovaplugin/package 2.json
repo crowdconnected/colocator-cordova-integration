@@ -1,0 +1,47 @@
+{
+  "_from": "com.crowdconnected.colocator.cordovaplugin",
+  "_id": "com.crowdconnected.colocator.cordovaplugin@0.2.1",
+  "_inBundle": false,
+  "_integrity": "sha512-93UZVL4+/4QncG3CHk5j7icylHYK/FEM/iD0q2DLPw0IGoAqtgPKZCgLZ4JUd0jHiY4wp+l64QgAOi7K9hdhfQ==",
+  "_location": "/com.crowdconnected.colocator.cordovaplugin",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "com.crowdconnected.colocator.cordovaplugin",
+    "name": "com.crowdconnected.colocator.cordovaplugin",
+    "escapedName": "com.crowdconnected.colocator.cordovaplugin",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/com.crowdconnected.colocator.cordovaplugin/-/com.crowdconnected.colocator.cordovaplugin-0.2.1.tgz",
+  "_shasum": "9972fdd1bbb4afcf8e5b8dc28c3fb79fd5e59278",
+  "_spec": "com.crowdconnected.colocator.cordovaplugin",
+  "_where": "/Users/tcode/Desktop/CrowdConnected/Cordova Plugin/CordovaIntegration",
+  "author": {
+    "name": "CrowdConnected"
+  },
+  "bundleDependencies": false,
+  "cordova": {
+    "id": "com.crowdconnected.colocator.cordovaplugin",
+    "platforms": [
+      "ios",
+      "android"
+    ]
+  },
+  "deprecated": false,
+  "description": "Colocator Cordova Plugin",
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-ios",
+    "cordova-android"
+  ],
+  "license": "ISC",
+  "name": "com.crowdconnected.colocator.cordovaplugin",
+  "version": "0.2.1"
+}
