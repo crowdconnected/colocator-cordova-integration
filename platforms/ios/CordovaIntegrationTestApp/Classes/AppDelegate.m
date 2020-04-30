@@ -34,6 +34,7 @@
 - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
 {
     self.viewController = [[MainViewController alloc] init];
+    [CCLocation.sharedInstance startWithApiKey:@"YOUR_APP_KEY" urlString:@"URL_STRING"];
     return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
