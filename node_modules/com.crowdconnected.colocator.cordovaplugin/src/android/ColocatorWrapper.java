@@ -128,6 +128,7 @@ public class ColocatorWrapper extends CordovaPlugin {
                         locationDictionary.put("headingOffSet", clientLocationResponse.getHeadingOffset());
                         locationDictionary.put("error", clientLocationResponse.getError());
                         locationDictionary.put("timestamp", clientLocationResponse.getTimestamp());
+                        locationDictionary.put("floor", clientLocationResponse.getFloor());
 
                         callbackContext.success(locationDictionary);
 
@@ -162,7 +163,8 @@ public class ColocatorWrapper extends CordovaPlugin {
                             locationDictionary.put("headingOffSet", response.getHeadingOffset());
                             locationDictionary.put("error", response.getError());
                             locationDictionary.put("timestamp", response.getTimestamp());
-    
+                            locationDictionary.put("floor", response.getFloor());
+
                             callbackContext.success(locationDictionary);
     
                         } catch (Exception e) {

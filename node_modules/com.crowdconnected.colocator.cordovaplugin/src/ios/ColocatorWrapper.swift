@@ -252,7 +252,8 @@ var locationUpdatesLastCommand: CDVInvokedUrlCommand? = nil
     locationDisctionary.updateValue(location.headingOffSet, forKey: "headingOffSet")
     locationDisctionary.updateValue(location.error, forKey: "error")
     locationDisctionary.updateValue(location.timestamp, forKey: "timestamp")
-
+    locationDisctionary.updateValue(location.floor, forKey: "floor")
+    
     let pluginResult = CDVPluginResult(
       status: CDVCommandStatus_OK,
       messageAs: locationDisctionary

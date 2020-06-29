@@ -4,5 +4,5 @@ platform :ios, '10.0'
 use_frameworks!
 target 'CordovaIntegrationTestApp' do
 	project 'CordovaIntegrationTestApp.xcodeproj'
-	pod 'CCLocation', '~> 2.5.2'
+	pod 'CCLocation', '~> 2.7.0'
 end

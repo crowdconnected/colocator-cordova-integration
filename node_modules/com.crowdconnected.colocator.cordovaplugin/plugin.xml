@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <plugin id="com.crowdconnected.colocator.cordovaplugin" 
-    version="2.5.0" 
+    version="2.7.0" 
     xmlns="http://apache.org/cordova/ns/plugins/1.0" 
     xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -18,6 +18,8 @@
         </config-file>
         
         <config-file target="*-Info.plist">
+            <key>NSBluetoothPeripheralUsageDescription</key>
+            <string>CoLocator needs Bluetooth for detecting specific peripherals around you</string>
             <key>NSBluetoothAlwaysUsageDescription</key>
             <string>The app requires Bluetooth permission for improving location accuracy.</string>
             <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
@@ -35,6 +37,8 @@
 				<string>location</string>
                 <string>fetch</string>
                 <string>remote-notification</string>
+                <string>bluetooth-central</string>
+                <string>bluetooth-peripheral</string>
 			</array>
 		</config-file>
 
@@ -46,7 +50,7 @@
             </config>
             
             <pods use-frameworks="true">
-                <pod name="CCLocation" spec="~> 2.5.2" />
+                <pod name="CCLocation" spec="~> 2.7.0" />
             </pods>
         </podspec>
 
